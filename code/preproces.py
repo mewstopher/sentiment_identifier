@@ -59,11 +59,43 @@ y_train_torch = torch.tensor(Y, dtype=torch.float32)
 train_dataset = data.TensorDataset(x_train_torch, y_train_torch)
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=5, shuffle=True)
 
+
+class BiLstm_Model(nn.Module):
+    def __init__(self, embedding_matrix, Dense_Hidden_Units, LSTM_UNITS, Max_Features):
+        super(BiLstm_Model, self).__init__()
+        embed_size = embedding_matrix.shape[1]
+        self.hidden_dim = 128
+        self.embedding = nn.Embedding(Max_Features, embed_size)
+        self.embedding.weight = nn.Parameter(torch.tensor(embedding_matrix,
+                                                          dtype=torch.float32))
+        self.embedding.weight.requires_grad = False
+        self.lstm1 = nn.LSTM(embed_size, LSTM_UNITS//2, num_layers=2, batch_first=True, bidirectional=True)
+        self.lstm2 = nn.LSTM(LSTM_UNITS, LSTM_UNITS)
+        self.linear1 = nn.Linear(128, 200)
+        self.linear2 = nn.Linear(200, 50)
+        self.linear_out = nn.Linear(50, 1)
+        self.hidden = self.init_hidden()
+
+
+    def init_hidden(self):
+            return (autograd.Variable(torch.randn(4, 5, self.hidden_dim//2)),
+                                autograd.Variable(torch.randn(4, 5, self.hidden_dim//2)))
+    def forward(self, X):
+        self.hidden = self.init_hidden()
+        X = self.embedding(X)
+        X1, self.hidden = self.lstm1(X, self.hidden)
+        X3 = F.relu(self.linear1(X1[:,-1,: ]))
+        X4 = F.relu(self.linear2(X3))
+        X5 = F.sigmoid(self.linear_out(X4))
+        return X5
+
+
 # define model Parameters and initialize
 LSTM_UNITS = 128
-simplenet = SimpleModel(glove_matrix, 200, LSTM_UNITS, max_features)
+bilstmnet = BiLstm_Model(glove_matrix, 200, LSTM_UNITS, max_features)
 error = nn.BCELoss()
 optimizer = torch.optim.SGD(simplenet.parameters(), lr=.0001)
+
 
 # train model
 loss_list = []
@@ -75,7 +107,7 @@ for batch in train_loader:
     x_batch = batch[:1]
     y_batch = batch[-1]
     optimizer.zero_grad()
-    outputs = simplenet(*x_batch)
+    outputs = bilstmnet(*x_batch)
     loss = error(outputs, y_batch)
     loss.backward()
     optimizer.step()
