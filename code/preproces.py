@@ -13,9 +13,10 @@ import torch
 from torch import nn
 from torch.utils import data
 from torch.nn import functional as F
+from torch import autograd
 sys.path.append("../../")
 from text_utils.process import *
-from model import *
+#from model import *
 
 GLOVE_PATH = "../../toxic_comment/input/glove.6B.100d.txt"
 dat = pd.read_csv("../input/train.csv")
@@ -94,7 +95,7 @@ class BiLstm_Model(nn.Module):
 LSTM_UNITS = 128
 bilstmnet = BiLstm_Model(glove_matrix, 200, LSTM_UNITS, max_features)
 error = nn.BCELoss()
-optimizer = torch.optim.SGD(simplenet.parameters(), lr=.0001)
+optimizer = torch.optim.SGD(bilstmnet.parameters(), lr=.0001)
 
 
 # train model
