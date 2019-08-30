@@ -1,5 +1,6 @@
 from imports import *
 from train_mod import *
+
 GLOVE_PATH = "../../toxic_comment/input/glove.6B.300d.txt"
 dat = pd.read_csv("../input/train.csv")
 
@@ -37,5 +38,6 @@ bilstmnet = BiLstm_Model(glove_matrix, 200, LSTM_UNITS, max_features)
 error = nn.BCELoss()
 optimizer = torch.optim.SGD(bilstmnet.parameters(), lr=.001)
 
-iteration_list, loss_list, accuracy_list = train_mod(train_loader, bilstmnet, "../output/bilstmnet")
+iteration_list, loss_list, accuracy_list = train_mod(train_loader, bilstmnet,
+                                                     optimizer, error, "../output/bilstmnet")
 

@@ -1,5 +1,7 @@
+from imports import *
 
-def train_mod(train_loader, model, save_dir, num_epochs=1, print_every=100):
+def train_mod(train_loader, model, optimizer, error,
+              save_dir, num_epochs=1, print_every=100):
     """
     method for training model.
 
