@@ -3,3 +3,4 @@ output/*
 lab_notes.txt
 *.swp
 code/__pycache__/
+.old
