@@ -1,3 +1,5 @@
 input/*
 output/*
 lab_notes.txt
+*.swp
+code/__pycache__/
