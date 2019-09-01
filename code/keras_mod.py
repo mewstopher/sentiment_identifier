@@ -20,7 +20,7 @@ def bidirectional_lstm(input_shape, word_to_vec_map, word_to_index, trainable=Fa
     X = GlobalMaxPool1D()(X)
     X = Dense(50, activation='relu')(X)
     X = Dropout(.1)(X)
-    X = Dense(6, activation='sigmoid')(X)
+    X = Dense(1, activation='sigmoid')(X)
     model = Model(inputs=sentence_indices, outputs=X)
 
     return model
