@@ -8,7 +8,7 @@ class BiLstm_Model(nn.Module):
         self.embedding = nn.Embedding(Max_Features, embed_size)
         self.embedding.weight = nn.Parameter(torch.tensor(embedding_matrix,
                                                           dtype=torch.float32))
-        self.embedding.weight.requires_grad = False
+        self.embedding.weight.requires_grad = True
         self.lstm1 = nn.LSTM(embed_size, LSTM_UNITS, batch_first=True, bidirectional=True)
         self.lstm2 = nn.LSTM(LSTM_UNITS*2, LSTM_UNITS)
         self.linear1 = nn.Linear(256, 200)

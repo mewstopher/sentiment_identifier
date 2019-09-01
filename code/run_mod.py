@@ -1,7 +1,7 @@
 from imports import *
 from train_mod import *
 
-GLOVE_PATH = "../../toxic_comment/input/glove.6B.300d.txt"
+GLOVE_PATH = "../../toxic_comment/input/glove.6B.200d.txt"
 dat = pd.read_csv("../input/train.csv")
 
 # data is 7920 rows

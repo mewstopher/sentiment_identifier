@@ -32,6 +32,7 @@ o = Dense(1, activation='sigmoid')(x)
 model2 = Model(input=model.input, output=[o])
 model2.summary()
 
+
 model2.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 model2.fit(X_padded, Y, epochs=5, batch_size=32, shuffle=True, validation_split=.1)
 
