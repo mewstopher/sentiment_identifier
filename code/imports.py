@@ -14,7 +14,7 @@ from torch.utils import data
 from torch.nn import functional as F
 from torch import autograd
 sys.path.append("../../")
-from text_utils.text_preprocess import *
+#from text_utils.text_preprocess import *
 from bi_lstm_model import *
 import matplotlib as plt
 

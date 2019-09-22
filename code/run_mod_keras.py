@@ -36,5 +36,5 @@ model2.summary()
 model2.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 model2.fit(X_padded, Y, epochs=5, batch_size=32, shuffle=True, validation_split=.1)
 
-model.save("../output/model2_keras")
+model2.save("../output/model2_keras")
 
